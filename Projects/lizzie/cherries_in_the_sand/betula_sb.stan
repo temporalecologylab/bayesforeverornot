@@ -1,7 +1,7 @@
 functions {
   real n_beta_given_m_cdf(int n, real m, real alpha_0, real alpha_1, 
                           real sigma, int b, int a, real beta) {
-  return Phi(
+  return Phi(       // Phi is CDF of normal
    (
     ((b - a) * m - beta) - 
      (alpha_0 * (b - a - n) + alpha_1/2 * ((b - n) * (b + n + 1) - a * (a + 1)))
@@ -24,22 +24,22 @@ data {
 }
 
 parameters {
-  real alpha_1[Y];
-  real<lower = 0> beta[Y];
-  real<lower = 0> sigma[S];
-  real gamma_0_alpha;
-  real gamma_1_alpha;
-  real gamma_0_beta;
-  real gamma_1_beta;
-  real tau_alpha;
-  real tau_beta;
+  real alpha_1[Y];          // daily increase in temperature over the 'spring'
+  real<lower = 0> beta[Y];  // thermal sum
+  real<lower = 0> sigma[S]; // noise around the temperature measure
+  real gamma_0_alpha;       // trend line over time: intercept for temperature
+  real gamma_1_alpha;       // trend line over time: daily increase in temperature
+  real gamma_0_beta;        // trend line over time: intercept for thermal sum
+  real gamma_1_beta;        // trend line over time: change in beta (slope) over time
+  real tau_alpha;           // sigma on the trend line for alpha
+  real tau_beta;            // sigma on the trend line for beta
 }
 
 model {
   for(n in 1:N) {
     target += 
 //log likelihood of n_beta | M    
-    log(n_beta_given_m_cdf(n_beta[n], M[n], 
+    log(n_beta_given_m_cdf(n_beta[n], M[n], // WTF? Why 1 unit apart?
                            alpha_0, alpha_1[year[n]], 
                            sigma[site[n]], b, a, beta[year[n]]) -
                   n_beta_given_m_cdf(n_beta[n] - 1, M[n], 

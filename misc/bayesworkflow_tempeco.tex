@@ -4,6 +4,8 @@
 \usepackage{graphicx}
 \usepackage{natbib}
 \usepackage{amsmath}
+\usepackage{hyperref}
+
 
 \def\labelitemi{--}
 \parindent=0pt
@@ -13,6 +15,9 @@
 \renewcommand{\refname}{\CHead{}}
 
 {\bf One Bayesian Workflow:} \\
+
+Below I outline a basic Bayesian workflow for someone using \verb|Stan|. This is a short overview of a much deeper topic. See \href{https://www.nature.com/articles/s43586-020-00001-2}{Bayesian statistics and modelling} for a little more depth, including how to develop priors and your basic model formulation.\\
+
 \emph{Note that you might need to start simple and build up to get all these steps to work, but this is my recommended approach to the basic workflow.}
 
 \begin{enumerate}
